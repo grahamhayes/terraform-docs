@@ -22,7 +22,7 @@ authors:
 build: authors build-darwin-amd64 build-freebsd-amd64 build-linux-amd64 build-windows-amd64
 
 build-darwin-amd64:
-	GOOS=darwin GOARCH=amd64 $(GOBUILD) -o bin/darwin-amd64/$(NAME)
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) -o bin/darwin-amd64/$(NAME)-tf12
 
 build-freebsd-amd64:
 	GOOS=freebsd GOARCH=amd64 $(GOBUILD) -o bin/freebsd-amd64/$(NAME)

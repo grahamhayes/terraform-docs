@@ -62,27 +62,28 @@ func printVariables(buffer *bytes.Buffer, variables []doc.Variable, printSetting
 		buffer.WriteString("None\n\n")
 	} else {
 
-		buffer.WriteString("<table>\n")
-		buffer.WriteString("<tr><th>Name</th><th>Description</th><th>Type</th><th>Default</th>")
+
 
 		if printSettings.Has(settings.WithRequired) {
-			buffer.WriteString(" <th>Required</th></tr>\n")
+			buffer.WriteString("| Name | Description | Type | Default | Required |\n")
+			buffer.WriteString("|------|-------------|------|---------|----------|\n")
+
 		} else {
-			buffer.WriteString("</tr>\n")
+			buffer.WriteString("| Name | Description | Type | Default |\n")
+			buffer.WriteString("|------|-------------|------|---------|\n")
 		}
 
 		for _, variable := range variables {
-			buffer.WriteString("<tr>\n")
-			buffer.WriteString(fmt.Sprintf("<td>%s</td>\n", variable.Name))
-			buffer.WriteString(fmt.Sprintf("<td>%s</td>\n", markdown.ConvertMultiLineText(variable.Description)))
-			buffer.WriteString(fmt.Sprintf("<td>\n\n%s</td>\n", markdown.PrintCode(variable.Type, "hcl")))
-			buffer.WriteString(fmt.Sprintf("<td>\n\n%s</td>\n", getVariableDefaultValue(&variable)))
+			buffer.WriteString("|")
+			buffer.WriteString(fmt.Sprintf("%s | ", variable.Name))
+			buffer.WriteString(fmt.Sprintf("%s | ", markdown.ConvertMultiLineText(variable.Description)))
+			buffer.WriteString(fmt.Sprintf("%s | ", markdown.PrintCode(variable.Type, "hcl")))
+			buffer.WriteString(fmt.Sprintf("%s |", getVariableDefaultValue(&variable)))
 			if printSettings.Has(settings.WithRequired) {
-				buffer.WriteString(fmt.Sprintf("<td>%s</td>\n", printIsVariableRequired(&variable)))
+				buffer.WriteString(fmt.Sprintf(" %s|", printIsVariableRequired(&variable)))
 			}
-			buffer.WriteString("</tr>\n")
+			buffer.WriteString("\n")
 		}
-		buffer.WriteString("</table>\n\n")
 	}
 }
 
